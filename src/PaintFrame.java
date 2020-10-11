@@ -14,7 +14,7 @@ class PaintFrame extends JFrame {
         mainPanel.add(new DrawingPanel(shapesPanel, shapeInfoPanel));
         mainPanel.add(shapeInfoPanel);
         setContentPane(mainPanel);
-        setSize(900, 600);
+        setSize(1100, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }

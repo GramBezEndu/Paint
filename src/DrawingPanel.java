@@ -34,8 +34,8 @@ public class DrawingPanel extends JPanel {
         this.shapeInfoPanel = shapeInfoPanel;
         layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(layout);
-        setBackground(new Color(222, 222, 222, 255));
-        setPreferredSize(new Dimension(700, 500));
+        setBackground(Color.WHITE);
+        setPreferredSize(new Dimension(900, 700));
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         addMouseListener(new MouseAdapter() {
             @Override
@@ -87,7 +87,7 @@ public class DrawingPanel extends JPanel {
 
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setStroke(new BasicStroke(2F));
+        g2d.setStroke(new BasicStroke(1.5F));
         super.paintComponent(g);
         for (var shape : shapes){
             shape.draw(g);
@@ -95,9 +95,9 @@ public class DrawingPanel extends JPanel {
         Rectangle selectedBounds = getSelectedShapeBounds();
         if (selectedBounds != null){
             g.setColor(Color.red);
-            float[] dash = { 10F, 10F };
-            Stroke dashedStroke = new BasicStroke( 2F, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 3F, dash, 0F );
-            ((Graphics2D) g).fill( dashedStroke.createStrokedShape(new java.awt.Rectangle(selectedBounds.x, selectedBounds.y, selectedBounds.width, selectedBounds.height)));
+            float[] dash = { 15F, 15F };
+            Stroke dashedStroke = new BasicStroke( 3F, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 3F, dash, 0F );
+            ((Graphics2D) g).fill(dashedStroke.createStrokedShape(new java.awt.Rectangle(selectedBounds.x, selectedBounds.y, selectedBounds.width, selectedBounds.height)));
         }
     }
 
