@@ -17,7 +17,7 @@ public class ShapeInfoPanel extends JPanel {
         add(posX);
         add(new JLabel("y:"));
         add(posY);
-        setVisible(true);
+        setVisible(false);
     }
 
 //    private void changePosX() {
@@ -41,10 +41,12 @@ public class ShapeInfoPanel extends JPanel {
         if (currentShape != null){
             posX.setText(Integer.toString(currentShape.x));
             posY.setText(Integer.toString(currentShape.y));
+            setVisible(true);
         }
         else{
             posX.setText("");
             posY.setText("");
+            setVisible(false);
         }
     }
 }

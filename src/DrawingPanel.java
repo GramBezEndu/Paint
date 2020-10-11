@@ -5,18 +5,24 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class DrawingPanel extends JPanel {
-    ShapesPanel shapesPanel;
+    OperationPanel operationPanel;
     ShapeInfoPanel shapeInfoPanel;
 
+    MouseAdapter mouseAdapter;
+
     BoxLayout layout;
-    Point firstClickPoint;
-    Point secondClickPoint;
+    Point clickPoint;
+    Point releasePoint;
     ArrayList<Shape> shapes = new ArrayList<Shape>();
+    Point relative;
 
     void setSelectedShape(Shape s){
         selectedShape = s;
         shapeInfoPanel.setCurrentShape(s);
-    }
+        if (s != null){
+            relative = new Point(clickPoint.x - getSelectedShapeBounds().x, clickPoint.y - getSelectedShapeBounds().y);
+        }
+}
 
     Rectangle getSelectedShapeBounds(){
         if (selectedShape != null){
@@ -29,59 +35,55 @@ public class DrawingPanel extends JPanel {
 
     Shape selectedShape;
 
-    DrawingPanel(ShapesPanel shapesPanel, ShapeInfoPanel shapeInfoPanel) {
-        this.shapesPanel = shapesPanel;
+    DrawingPanel(OperationPanel operationPanel, ShapeInfoPanel shapeInfoPanel) {
+        this.operationPanel = operationPanel;
         this.shapeInfoPanel = shapeInfoPanel;
+        mouseAdapter = createMouseAdapter();
+        addMouseListener(mouseAdapter);
+        addMouseMotionListener(mouseAdapter);
         layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(layout);
         setBackground(Color.WHITE);
         setPreferredSize(new Dimension(900, 700));
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                super.mouseClicked(e);
-                if (getMousePosition() != null){
-                    firstClickPoint = getMousePosition();
-                }
-            }
-            public void mouseReleased(MouseEvent e){
-                if (firstClickPoint != null && getMousePosition() != null){
-                    secondClickPoint = getMousePosition();
-                    addShape();
-                    repaint();
-                }
-            }
-        });
         setVisible(true);
     }
 
-    private void addShape(){
-        if (firstClickPoint != null){
-            Point startingPoint;
-            Dimension size;
-            Shape newShape;
-            switch (shapesPanel.getShape()){
-                case Line:
-                    newShape = new Line(firstClickPoint.x, firstClickPoint.y, secondClickPoint.x, secondClickPoint.y);
-                    shapes.add(newShape);
-                    setSelectedShape(newShape);
-                    break;
-                case Circle:
-                    startingPoint = calculateStartingPoint();
-                    size = calculateSize();
-                    newShape = new Circle(startingPoint.x, startingPoint.y, size.width, size.height);
-                    shapes.add(newShape);
-                    setSelectedShape(newShape);
-                    break;
-                case Rectangle:
-                    startingPoint = calculateStartingPoint();
-                    size = calculateSize();
-                    newShape = new Rectangle(startingPoint.x, startingPoint.y, size.width, size.height);
-                    shapes.add(newShape);
-                    setSelectedShape(newShape);
-                    break;
+    private Shape findShape(Point mousePoint) {
+        for (var shape: shapes){
+            if (shape.getBounds().contains(mousePoint)){
+                return shape;
             }
+        }
+        return null;
+    }
+
+    private void addShape(){
+        Point startingPoint;
+        Dimension size;
+        Shape newShape;
+        switch (operationPanel.getCurrentOperation()){
+            case Line:
+                newShape = new Line(clickPoint.x, clickPoint.y, releasePoint.x, releasePoint.y);
+                shapes.add(newShape);
+                setSelectedShape(newShape);
+                break;
+            case Circle:
+                startingPoint = calculateStartingPoint();
+                size = calculateSize();
+                newShape = new Circle(startingPoint.x, startingPoint.y, size.width, size.height);
+                shapes.add(newShape);
+                setSelectedShape(newShape);
+                break;
+            case Rectangle:
+                startingPoint = calculateStartingPoint();
+                size = calculateSize();
+                newShape = new Rectangle(startingPoint.x, startingPoint.y, size.width, size.height);
+                shapes.add(newShape);
+                setSelectedShape(newShape);
+                break;
+            default:
+                break;
         }
     }
 
@@ -102,10 +104,44 @@ public class DrawingPanel extends JPanel {
     }
 
     protected Point calculateStartingPoint(){
-        return new Point(Math.min(firstClickPoint.x, secondClickPoint.x), Math.min(firstClickPoint.y, secondClickPoint.y));
+        return new Point(Math.min(clickPoint.x, releasePoint.x), Math.min(clickPoint.y, releasePoint.y));
     }
 
     protected Dimension calculateSize(){
-        return new Dimension(Math.abs(secondClickPoint.x - firstClickPoint.x), Math.abs(secondClickPoint.y - firstClickPoint.y));
+        return new Dimension(Math.abs(releasePoint.x - clickPoint.x), Math.abs(releasePoint.y - clickPoint.y));
+    }
+
+    private MouseAdapter createMouseAdapter(){
+        return new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mouseClicked(e);
+                if (getMousePosition() != null){
+                    clickPoint = getMousePosition();
+                    if(operationPanel.getCurrentOperation() == Operations.Operation.Select){
+                        //Note: will set null if clicked outside of any shape
+                        setSelectedShape(findShape(clickPoint));
+                        repaint();
+                    }
+                }
+            }
+            public void mouseDragged(MouseEvent e){
+                if (selectedShape != null){
+                    //TODO: Add resize or drag shape
+                    Rectangle selector = getSelectedShapeBounds();
+                    Point mouseLoc = getMousePosition();
+                    selectedShape.x = mouseLoc.x - relative.x;
+                    selectedShape.y = mouseLoc.y - relative.y;
+                    repaint();
+                }
+            }
+            public void mouseReleased(MouseEvent e){
+                if (clickPoint != null && getMousePosition() != null){
+                    releasePoint = getMousePosition();
+                    addShape();
+                    repaint();
+                }
+            }
+        };
     }
 }

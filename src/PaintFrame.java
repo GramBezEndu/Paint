@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 class PaintFrame extends JFrame {
-    ShapesPanel shapesPanel = new ShapesPanel();
+    OperationPanel operationPanel = new OperationPanel();
     ShapeInfoPanel shapeInfoPanel = new ShapeInfoPanel();
     JPanel mainPanel = new JPanel();
     GridLayout layout = new GridLayout(2, 2);
@@ -10,12 +10,13 @@ class PaintFrame extends JFrame {
     PaintFrame(){
         super("PAINT");
         setLayout(layout);
-        mainPanel.add(shapesPanel);
-        mainPanel.add(new DrawingPanel(shapesPanel, shapeInfoPanel));
+        mainPanel.add(operationPanel);
+        mainPanel.add(new DrawingPanel(operationPanel, shapeInfoPanel));
         mainPanel.add(shapeInfoPanel);
         setContentPane(mainPanel);
         setSize(1100, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        pack();
         setVisible(true);
     }
     public static void main(String args[]) {

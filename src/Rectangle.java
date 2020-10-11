@@ -33,4 +33,9 @@ public class Rectangle extends Shape {
     public Rectangle getBounds() {
         return new Rectangle(x, y, width, height);
     }
+
+    public boolean contains(Point p){
+        java.awt.Rectangle r = new java.awt.Rectangle(x, y, width, height);
+        return  r.contains(p);
+    }
 }
