@@ -1,8 +1,7 @@
 import java.awt.*;
 
 public class Circle extends Shape {
-    int x;
-    int y;
+    Color color = Color.BLACK;
     int width;
     int height;
 
@@ -12,8 +11,27 @@ public class Circle extends Shape {
         width = w;
         height = h;
     }
+
+    @Override
+    public Color getColor() {
+        return color;
+    }
+
+    @Override
+    public void setColor(Color c) {
+        color = c;
+    }
+
     @Override
     public void draw(Graphics g) {
+        Color previousColor = g.getColor();
+        g.setColor(color);
         g.drawOval(x, y, width, height);
+        g.setColor(previousColor);
+    }
+
+    @Override
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, width, height);
     }
 }
