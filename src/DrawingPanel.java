@@ -126,7 +126,7 @@ public class DrawingPanel extends JPanel {
                 }
             }
             public void mouseDragged(MouseEvent e){
-                if (selectedShape != null){
+                if (selectedShape != null && operationPanel.getCurrentOperation() == Operations.Operation.Select){
                     //TODO: Add resize or drag shape
                     Rectangle selector = getSelectedShapeBounds();
                     Point mouseLoc = getMousePosition();
