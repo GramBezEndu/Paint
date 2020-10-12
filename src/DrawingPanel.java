@@ -20,7 +20,11 @@ public class DrawingPanel extends JPanel {
         selectedShape = s;
         shapeInfoPanel.setCurrentShape(s);
         if (s != null){
-            relative = new Point(clickPoint.x - getSelectedShapeBounds().x, clickPoint.y - getSelectedShapeBounds().y);
+            if (selectedShape.getClass() == Line.class){
+                relative = new Point(clickPoint.x - selectedShape.x, clickPoint.y - selectedShape.y);
+            } else {
+                relative = new Point(clickPoint.x - getSelectedShapeBounds().x, clickPoint.y - getSelectedShapeBounds().y);
+            }
         }
     }
 
