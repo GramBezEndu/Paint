@@ -12,6 +12,12 @@ public class Rectangle extends Shape {
     }
 
     @Override
+    public void reposition(int newX, int newY) {
+        this.x = newX;
+        this.y = newY;
+    }
+
+    @Override
     public Color getColor() {
         return color;
     }

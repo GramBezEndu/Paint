@@ -130,8 +130,7 @@ public class DrawingPanel extends JPanel {
                     //TODO: Add resize or drag shape
                     Rectangle selector = getSelectedShapeBounds();
                     Point mouseLoc = getMousePosition();
-                    selectedShape.x = mouseLoc.x - relative.x;
-                    selectedShape.y = mouseLoc.y - relative.y;
+                    selectedShape.reposition(mouseLoc.x - relative.x, mouseLoc.y - relative.y);
                     repaint();
                 }
             }
