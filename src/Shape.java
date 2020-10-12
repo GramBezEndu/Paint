@@ -1,8 +1,18 @@
 import java.awt.*;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 public abstract class Shape {
+    protected PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
     protected int x;
-    protected  int y;
+    protected int y;
+    public void addPropertyChangeListener(PropertyChangeListener l) {
+        propertyChangeSupport.addPropertyChangeListener(l);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener l) {
+        propertyChangeSupport.removePropertyChangeListener(l);
+    }
     public abstract void reposition(int newX, int newY);
     public abstract Color getColor();
     public abstract void setColor(Color c);

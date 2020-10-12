@@ -13,6 +13,8 @@ public class Rectangle extends Shape {
 
     @Override
     public void reposition(int newX, int newY) {
+        propertyChangeSupport.firePropertyChange("x", x, newX);
+        propertyChangeSupport.firePropertyChange("y", y, newY);
         this.x = newX;
         this.y = newY;
     }

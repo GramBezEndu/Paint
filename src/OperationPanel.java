@@ -65,4 +65,22 @@ public class OperationPanel extends JPanel {
     public Operations.Operation getCurrentOperation(){
         return currentOperation;
     }
+
+    public void setCurrentOperation(Operations.Operation o){
+        currentOperation = o;
+        switch (currentOperation){
+            case Line:
+                selectLine();
+                break;
+            case Circle:
+                circle.setSelected(true);
+                break;
+            case Select:
+                selectBtn.setSelected(true);
+                break;
+            case Rectangle:
+                rectangle.setSelected(true);
+                break;
+        }
+    }
 }

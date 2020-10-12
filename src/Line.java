@@ -3,9 +3,6 @@ import java.awt.geom.Point2D;
 
 public class Line extends Shape {
     Color color = Color.BLACK;
-    int getLength(){
-        return (int)Point2D.distance(x, y, x2, y2);
-    }
     int x2;
     int y2;
 
@@ -35,6 +32,8 @@ public class Line extends Shape {
     }
 
     public void reposition(int newX, int newY){
+        propertyChangeSupport.firePropertyChange("x", x, newX);
+        propertyChangeSupport.firePropertyChange("y", y, newY);
         int differenceX = newX - x;
         int differenceY = newY - y;
         this.x = newX;

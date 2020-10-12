@@ -118,8 +118,9 @@ public class DrawingPanel extends JPanel {
                 super.mouseClicked(e);
                 if (getMousePosition() != null){
                     clickPoint = getMousePosition();
-                    if(operationPanel.getCurrentOperation() == Operations.Operation.Select){
+                    if(operationPanel.getCurrentOperation() == Operations.Operation.Select || (getSelectedShapeBounds() != null && getSelectedShapeBounds().contains(clickPoint))){
                         //Note: will set null if clicked outside of any shape
+                        operationPanel.setCurrentOperation(Operations.Operation.Select);
                         setSelectedShape(findShape(clickPoint));
                         repaint();
                     }
