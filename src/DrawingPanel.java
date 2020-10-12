@@ -22,7 +22,7 @@ public class DrawingPanel extends JPanel {
         if (s != null){
             relative = new Point(clickPoint.x - getSelectedShapeBounds().x, clickPoint.y - getSelectedShapeBounds().y);
         }
-}
+    }
 
     Rectangle getSelectedShapeBounds(){
         if (selectedShape != null){
@@ -38,6 +38,7 @@ public class DrawingPanel extends JPanel {
     DrawingPanel(OperationPanel operationPanel, ShapeInfoPanel shapeInfoPanel) {
         this.operationPanel = operationPanel;
         this.shapeInfoPanel = shapeInfoPanel;
+        shapeInfoPanel.drawingPanel = this;
         mouseAdapter = createMouseAdapter();
         addMouseListener(mouseAdapter);
         addMouseMotionListener(mouseAdapter);

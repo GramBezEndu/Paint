@@ -2,6 +2,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.event.ActionListener;
+import java.beans.EventHandler;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -10,10 +11,9 @@ public class ShapeInfoPanel extends JPanel implements PropertyChangeListener {
     JTextField posX = new JTextField();
     JTextField posY = new JTextField();
     JButton apply = new JButton("Apply");
+    public DrawingPanel drawingPanel;
 
     ShapeInfoPanel(){
-        posX.setEditable(false);
-        posY.setEditable(false);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         add(new JLabel("Properties"));
         add(new JLabel("Position:"));
@@ -41,9 +41,20 @@ public class ShapeInfoPanel extends JPanel implements PropertyChangeListener {
 //        }
 //    }
 
-    private void reposition(){
-//        currentShape.reposition(0, 0);
-        throw new java.lang.UnsupportedOperationException("Not supported yet.");
+    private boolean reposition(){
+        int newX, newY;
+        if(tryParseInt(posX.getText()) && tryParseInt(posY.getText())){
+            newX = Integer.parseInt(posX.getText());
+            newY = Integer.parseInt(posY.getText());
+            currentShape.reposition(newX, newY);
+            //TODO: Refactor
+            drawingPanel.repaint();
+            return true;
+        }
+        else {
+            System.out.println("not a valid number");
+            return false;
+        }
     }
 
     public Shape getCurrentShape(){
@@ -69,7 +80,20 @@ public class ShapeInfoPanel extends JPanel implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        posX.setText(Integer.toString(currentShape.x));
-        posY.setText(Integer.toString(currentShape.y));
+        String propertyName = evt.getPropertyName();
+        if ("x".equals(propertyName)){
+            posX.setText(Integer.toString((Integer)evt.getNewValue()));
+        } else if ("y".equals(propertyName)){
+            posY.setText(Integer.toString((Integer)evt.getNewValue()));
+        }
+    }
+
+    boolean tryParseInt(String value) {
+        try {
+            Integer.parseInt(value);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }
