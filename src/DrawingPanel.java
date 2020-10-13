@@ -15,6 +15,7 @@ public class DrawingPanel extends JPanel {
     Point releasePoint;
     ArrayList<Shape> shapes = new ArrayList<Shape>();
     Point relative;
+    boolean resize = false;
     Shape selectedShape;
     Selector selector;
 
@@ -33,13 +34,24 @@ public class DrawingPanel extends JPanel {
             infoPanel.drawingPanel = this;
             infoPanel.setCurrentShape(selectedShape);
             selector = new Selector(selectedShape);
+            resize = checkIfResizeRequested();
             add(infoPanel);
             validate();
             repaint();
         } else {
             infoPanel = null;
             selector = null;
+            resize = false;
         }
+    }
+
+    private boolean checkIfResizeRequested(){
+        for (var resizeRect : selector.resizeRectangles){
+            if (resizeRect.contains(clickPoint)){
+                return true;
+            }
+        }
+        return false;
     }
 
     private void removeInfoPanels() {
@@ -149,13 +161,6 @@ public class DrawingPanel extends JPanel {
                     //TODO: Add resize
                     Point mouseLoc = getMousePosition();
                     if (mouseLoc != null){
-                        boolean resize = false;
-                        for (var resizeRect : selector.resizeRectangles){
-                            if (resizeRect.contains(clickPoint)){
-                                resize = true;
-                                break;
-                            }
-                        }
                         if (resize){
                             System.out.println("Resize requested");
                         } else {
