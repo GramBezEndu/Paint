@@ -2,6 +2,7 @@ import java.awt.*;
 
 public class Rectangle extends FullShape {
     Color color = Color.BLACK;
+    boolean filled = false;
 
     Rectangle(int x, int y, int w, int h) {
         this.x = x;
@@ -32,7 +33,11 @@ public class Rectangle extends FullShape {
     public void draw(Graphics g) {
         Color previousColor = g.getColor();
         g.setColor(color);
-        g.drawRect(x, y, width, height);
+        if (filled){
+            g.fillRect(x, y, width, height);
+        } else {
+            g.drawRect(x, y, width, height);
+        }
         g.setColor(previousColor);
     }
 

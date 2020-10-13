@@ -116,10 +116,9 @@ public class DrawingPanel extends JPanel {
         }
         Rectangle selectedBounds = getSelectedShapeBounds();
         if (selectedBounds != null){
-            g.setColor(Color.red);
-            float[] dash = { 15F, 15F };
-            Stroke dashedStroke = new BasicStroke( 3F, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 3F, dash, 0F );
-            ((Graphics2D) g).fill(dashedStroke.createStrokedShape(new java.awt.Rectangle(selectedBounds.x, selectedBounds.y, selectedBounds.width, selectedBounds.height)));
+            Selector s = new Selector(selectedBounds.x, selectedBounds.y, selectedBounds.width, selectedBounds.height);
+            s.setColor(Color.black);
+            s.draw(g);
         }
     }
 
