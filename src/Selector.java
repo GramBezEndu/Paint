@@ -1,8 +1,8 @@
 import java.awt.*;
 
 public class Selector {
-    public static final int WIDTH = 8;
-    public static final int HEIGHT = 8;
+    private int rectWidth = 8;
+    private int rectHeight = 8;
     Rectangle selector;
     Rectangle[] resizeRectangles;
     private Shape shape;
@@ -15,11 +15,24 @@ public class Selector {
     }
 
     private void createResizeRectangles(){
-        Point[] characteristicPoints = shape.getCharacteristicPoints();
+        CharacteristicPoint[] characteristicPoints = shape.getCharacteristicPoints();
         resizeRectangles = new Rectangle[characteristicPoints.length];
         for (int i = 0; i < characteristicPoints.length; i++) {
-            Point p = characteristicPoints[i];
-            resizeRectangles[i] = new Rectangle(p.x, p.y, WIDTH, HEIGHT);
+            CharacteristicPoint p = characteristicPoints[i];
+            switch (p.pointLocation){
+                case TOP_LEFT:
+                    resizeRectangles[i] = new Rectangle(p.point.x, p.point.y, rectWidth, rectHeight);
+                    break;
+                case TOP_RIGHT:
+                    resizeRectangles[i] = new Rectangle(p.point.x - rectWidth, p.point.y, rectWidth, rectHeight);
+                    break;
+                case BOTTOM_LEFT:
+                    resizeRectangles[i] = new Rectangle(p.point.x, p.point.y - rectHeight, rectWidth, rectHeight);
+                    break;
+                case BOTTOM_RIGHT:
+                    resizeRectangles[i] = new Rectangle(p.point.x - rectWidth, p.point.y - rectHeight, rectWidth, rectHeight);
+                    break;
+            }
             resizeRectangles[i].setColor(Color.red);
             resizeRectangles[i].filled = true;
         }

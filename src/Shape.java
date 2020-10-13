@@ -18,5 +18,5 @@ public abstract class Shape {
     public abstract void setColor(Color c);
     public abstract void draw(Graphics g);
     public abstract Rectangle getBounds();
-    public abstract Point[] getCharacteristicPoints();
+    public abstract CharacteristicPoint[] getCharacteristicPoints();
 }

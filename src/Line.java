@@ -48,10 +48,25 @@ public class Line extends Shape {
     }
 
     @Override
-    public Point[] getCharacteristicPoints() {
-        var points = new Point[2];
-        points[0] = new Point(x, y);
-        points[1] = new Point(x2 - Selector.WIDTH, y2 - Selector.HEIGHT);
+    public CharacteristicPoint[] getCharacteristicPoints() {
+        var points = new CharacteristicPoint[2];
+        if (x <= x2){
+            if (y >= y2){
+                points[0] = new CharacteristicPoint(x, y, CharacteristicPoint.PointLocation.BOTTOM_LEFT);
+                points[1] = new CharacteristicPoint(x2, y2, CharacteristicPoint.PointLocation.TOP_RIGHT);
+            } else {
+                points[0] = new CharacteristicPoint(x, y, CharacteristicPoint.PointLocation.TOP_LEFT);
+                points[1] = new CharacteristicPoint(x2, y2, CharacteristicPoint.PointLocation.BOTTOM_RIGHT);
+            }
+        } else {
+            if (y >= y2){
+                points[0] = new CharacteristicPoint(x, y, CharacteristicPoint.PointLocation.BOTTOM_RIGHT);
+                points[1] = new CharacteristicPoint(x2, y2, CharacteristicPoint.PointLocation.TOP_LEFT);
+            } else {
+                points[0] = new CharacteristicPoint(x, y, CharacteristicPoint.PointLocation.TOP_RIGHT);
+                points[1] = new CharacteristicPoint(x2, y2, CharacteristicPoint.PointLocation.BOTTOM_LEFT);
+            }
+        }
         return points;
     }
 }

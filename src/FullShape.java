@@ -15,12 +15,12 @@ public abstract class FullShape extends Shape {
     }
 
     @Override
-    public Point[] getCharacteristicPoints() {
-        var points = new Point[4];
-        points[0] = new Point(x, y);
-        points[1] = new Point(x + width - Selector.WIDTH, y);
-        points[2] = new Point(x, y + height - Selector.HEIGHT);
-        points[3] = new Point(x + width - Selector.WIDTH, y + height - Selector.HEIGHT);
+    public CharacteristicPoint[] getCharacteristicPoints() {
+        var points = new CharacteristicPoint[4];
+        points[0] = new CharacteristicPoint(x, y, CharacteristicPoint.PointLocation.TOP_LEFT);
+        points[1] = new CharacteristicPoint(x, y, CharacteristicPoint.PointLocation.TOP_RIGHT);
+        points[2] = new CharacteristicPoint(x, y + height, CharacteristicPoint.PointLocation.BOTTOM_LEFT);
+        points[3] = new CharacteristicPoint(x + width, y + height, CharacteristicPoint.PointLocation.BOTTOM_RIGHT);
         return points;
     }
 }
