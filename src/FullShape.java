@@ -13,4 +13,14 @@ public abstract class FullShape extends Shape {
         propertyChangeSupport.firePropertyChange("width", width, newWidth);
         this.width = newWidth;
     }
+
+    @Override
+    public Point[] getCharacteristicPoints() {
+        var points = new Point[4];
+        points[0] = new Point(x, y);
+        points[1] = new Point(x + width - Selector.WIDTH, y);
+        points[2] = new Point(x, y + height - Selector.HEIGHT);
+        points[3] = new Point(x + width - Selector.WIDTH, y + height - Selector.HEIGHT);
+        return points;
+    }
 }

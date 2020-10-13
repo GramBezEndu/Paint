@@ -46,4 +46,12 @@ public class Line extends Shape {
     public Rectangle getBounds() {
         return new Rectangle(Math.min(x, x2), Math.min(y, y2), Math.abs(x - x2), Math.abs(y - y2));
     }
+
+    @Override
+    public Point[] getCharacteristicPoints() {
+        var points = new Point[2];
+        points[0] = new Point(x, y);
+        points[1] = new Point(x2 - Selector.WIDTH, y2 - Selector.HEIGHT);
+        return points;
+    }
 }

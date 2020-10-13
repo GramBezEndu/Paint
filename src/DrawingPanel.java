@@ -3,7 +3,6 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class DrawingPanel extends JPanel {
     OperationPanel operationPanel;
@@ -17,6 +16,7 @@ public class DrawingPanel extends JPanel {
     ArrayList<Shape> shapes = new ArrayList<Shape>();
     Point relative;
     Shape selectedShape;
+    Selector selector;
 
     void setSelectedShape(Shape s){
         selectedShape = s;
@@ -26,17 +26,19 @@ public class DrawingPanel extends JPanel {
                 removeInfoPanels();
                 infoPanel = new LineInfoPanel();
             } else {
-                relative = new Point(clickPoint.x - getSelectedShapeBounds().x, clickPoint.y - getSelectedShapeBounds().y);
+                relative = new Point(clickPoint.x - selectedShape.getBounds().x, clickPoint.y - selectedShape.getBounds().y);
                 removeInfoPanels();
                 infoPanel = new ShapeInfoPanel();
             }
             infoPanel.drawingPanel = this;
-            infoPanel.setCurrentShape(s);
+            infoPanel.setCurrentShape(selectedShape);
+            selector = new Selector(selectedShape);
             add(infoPanel);
             validate();
             repaint();
         } else {
             infoPanel = null;
+            selector = null;
         }
     }
 
@@ -71,8 +73,9 @@ public class DrawingPanel extends JPanel {
     }
 
     private Shape findShape(Point mousePoint) {
-        for (var shape: shapes){
-            if (shape.getBounds().contains(mousePoint)){
+        for (int i = shapes.size() - 1; i >= 0; i--) {
+            Shape shape = shapes.get(i);
+            if (shape.getBounds().contains(mousePoint)) {
                 return shape;
             }
         }
@@ -109,16 +112,12 @@ public class DrawingPanel extends JPanel {
     }
 
     protected void paintComponent(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
         super.paintComponent(g);
         for (var shape : shapes){
             shape.draw(g);
         }
-        Rectangle selectedBounds = getSelectedShapeBounds();
-        if (selectedBounds != null){
-            Selector s = new Selector(selectedBounds.x, selectedBounds.y, selectedBounds.width, selectedBounds.height);
-            s.setColor(Color.black);
-            s.draw(g);
+        if (selector != null){
+            selector.draw(g);
         }
     }
 
@@ -148,10 +147,20 @@ public class DrawingPanel extends JPanel {
             public void mouseDragged(MouseEvent e){
                 if (selectedShape != null && operationPanel.getCurrentOperation() == Operations.Operation.Select){
                     //TODO: Add resize
-                    Rectangle selector = getSelectedShapeBounds();
                     Point mouseLoc = getMousePosition();
                     if (mouseLoc != null){
-                        selectedShape.reposition(mouseLoc.x - relative.x, mouseLoc.y - relative.y);
+                        boolean resize = false;
+                        for (var resizeRect : selector.resizeRectangles){
+                            if (resizeRect.contains(clickPoint)){
+                                resize = true;
+                                break;
+                            }
+                        }
+                        if (resize){
+                            System.out.println("Resize requested");
+                        } else {
+                            selectedShape.reposition(mouseLoc.x - relative.x, mouseLoc.y - relative.y);
+                        }
                         repaint();
                     }
                 }

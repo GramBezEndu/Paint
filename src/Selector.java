@@ -1,35 +1,38 @@
 import java.awt.*;
 
-public class Selector extends Rectangle {
-    private Rectangle[] characteristicPoints;
+public class Selector {
+    public static final int WIDTH = 8;
+    public static final int HEIGHT = 8;
+    Rectangle selector;
+    Rectangle[] resizeRectangles;
+    private Shape shape;
     private float[] dash = { 15F, 15F };
 
-    Selector(int x, int y, int w, int h) {
-        super(x, y, w, h);
-        createCharectiristicPoints();
+    Selector(Shape shape) {
+        this.shape = shape;
+        selector = new Rectangle(shape.getBounds().x, shape.getBounds().y, shape.getBounds().width, shape.getBounds().height);
+        createResizeRectangles();
     }
 
-    private void createCharectiristicPoints(){
-        int pointWidth = 8;
-        int pointHeight = 8;
-        characteristicPoints = new Rectangle[4];
-        characteristicPoints[0] = new Rectangle(x, y, pointWidth, pointHeight);
-        characteristicPoints[1] = new Rectangle(x + width - pointWidth, y, pointWidth, pointHeight);
-        characteristicPoints[2] = new Rectangle(x, y + height - pointHeight, pointWidth, pointHeight);
-        characteristicPoints[3] = new Rectangle(x + width - pointWidth, y + height - pointHeight, pointWidth, pointHeight);
-        for(int i = 0; i < characteristicPoints.length; i++){
-            characteristicPoints[i].setColor(Color.red);
-            characteristicPoints[i].filled = true;
+    private void createResizeRectangles(){
+        Point[] characteristicPoints = shape.getCharacteristicPoints();
+        resizeRectangles = new Rectangle[characteristicPoints.length];
+        for (int i = 0; i < characteristicPoints.length; i++) {
+            Point p = characteristicPoints[i];
+            resizeRectangles[i] = new Rectangle(p.x, p.y, WIDTH, HEIGHT);
+            resizeRectangles[i].setColor(Color.red);
+            resizeRectangles[i].filled = true;
         }
     }
 
-    @Override
     public void draw(Graphics g){
+        selector = new Rectangle(shape.getBounds().x, shape.getBounds().y, shape.getBounds().width, shape.getBounds().height);
+        createResizeRectangles();
         Color previousColor = g.getColor();
-        g.setColor(color);
+        g.setColor(Color.black);
         Stroke dashedStroke = new BasicStroke( 1F, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 3F, dash, 0F );
-        ((Graphics2D) g).fill(dashedStroke.createStrokedShape(new java.awt.Rectangle(x, y, width, height)));
-        for (var rect : characteristicPoints){
+        ((Graphics2D) g).fill(dashedStroke.createStrokedShape(new java.awt.Rectangle(selector.x, selector.y, selector.width, selector.height)));
+        for (var rect : resizeRectangles){
             rect.draw(g);
         }
         g.setColor(previousColor);
