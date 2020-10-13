@@ -35,18 +35,6 @@ public abstract class InfoPanel extends JPanel implements PropertyChangeListener
 
     protected abstract void addExtraProperties();
 
-//    private void changePosX() {
-//        String textContent = posX.getText();
-//        int value = Integer.parseInt(textContent);
-//        if (value <= 0){
-//            JOptionPane.showMessageDialog(null,
-//                    "Error: Please enter number bigger than 0", "Error Message",
-//                    JOptionPane.ERROR_MESSAGE);
-//        } else {
-//            currentShape.x = value;
-//        }
-//    }
-
     protected void changeAttributes(){
         int newX = Integer.parseInt(posX.getText());
         int newY = Integer.parseInt(posY.getText());

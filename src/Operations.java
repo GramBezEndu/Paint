@@ -1,8 +1,8 @@
 public class Operations {
-    public static enum Operation {
+    public enum Operation {
         Select,
         Line,
         Rectangle,
         Circle
-    };
+    }
 }

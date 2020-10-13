@@ -16,6 +16,7 @@ public class DrawingPanel extends JPanel {
     Point releasePoint;
     ArrayList<Shape> shapes = new ArrayList<Shape>();
     Point relative;
+    Shape selectedShape;
 
     void setSelectedShape(Shape s){
         selectedShape = s;
@@ -52,11 +53,9 @@ public class DrawingPanel extends JPanel {
             return selectedShape.getBounds();
         }
         else {
-            return  null;
+            return null;
         }
     }
-
-    Shape selectedShape;
 
     DrawingPanel(OperationPanel operationPanel) {
         this.operationPanel = operationPanel;
@@ -111,7 +110,6 @@ public class DrawingPanel extends JPanel {
 
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-//        g2d.setStroke(new BasicStroke(1.5F));
         super.paintComponent(g);
         for (var shape : shapes){
             shape.draw(g);
@@ -150,7 +148,7 @@ public class DrawingPanel extends JPanel {
             }
             public void mouseDragged(MouseEvent e){
                 if (selectedShape != null && operationPanel.getCurrentOperation() == Operations.Operation.Select){
-                    //TODO: Add resize or drag shape
+                    //TODO: Add resize
                     Rectangle selector = getSelectedShapeBounds();
                     Point mouseLoc = getMousePosition();
                     if (mouseLoc != null){
