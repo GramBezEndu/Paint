@@ -1,9 +1,7 @@
 import java.awt.*;
 
-public class Circle extends Shape {
+public class Circle extends FullShape {
     Color color = Color.BLACK;
-    int width;
-    int height;
 
     Circle(int x, int y, int w, int h){
         this.x = x;

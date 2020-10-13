@@ -1,9 +1,8 @@
 import java.awt.*;
 
-public class Rectangle extends Shape {
+public class Rectangle extends FullShape {
     Color color = Color.BLACK;
-    int width;
-    int height;
+
     Rectangle(int x, int y, int w, int h) {
         this.x = x;
         this.y = y;

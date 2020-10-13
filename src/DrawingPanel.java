@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class DrawingPanel extends JPanel {
     OperationPanel operationPanel;
-    ShapeInfoPanel shapeInfoPanel;
+    InfoPanel infoPanel;
 
     MouseAdapter mouseAdapter;
 
@@ -18,7 +18,7 @@ public class DrawingPanel extends JPanel {
 
     void setSelectedShape(Shape s){
         selectedShape = s;
-        shapeInfoPanel.setCurrentShape(s);
+        infoPanel.setCurrentShape(s);
         if (s != null){
             if (selectedShape.getClass() == Line.class){
                 relative = new Point(clickPoint.x - selectedShape.x, clickPoint.y - selectedShape.y);
@@ -39,10 +39,10 @@ public class DrawingPanel extends JPanel {
 
     Shape selectedShape;
 
-    DrawingPanel(OperationPanel operationPanel, ShapeInfoPanel shapeInfoPanel) {
+    DrawingPanel(OperationPanel operationPanel, InfoPanel infoPanel) {
         this.operationPanel = operationPanel;
-        this.shapeInfoPanel = shapeInfoPanel;
-        shapeInfoPanel.drawingPanel = this;
+        this.infoPanel = infoPanel;
+        infoPanel.drawingPanel = this;
         mouseAdapter = createMouseAdapter();
         addMouseListener(mouseAdapter);
         addMouseMotionListener(mouseAdapter);
