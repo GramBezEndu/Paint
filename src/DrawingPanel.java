@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DrawingPanel extends JPanel {
     OperationPanel operationPanel;
@@ -10,7 +11,7 @@ public class DrawingPanel extends JPanel {
 
     MouseAdapter mouseAdapter;
 
-    BoxLayout layout;
+    LayoutManager layout;
     Point clickPoint;
     Point releasePoint;
     ArrayList<Shape> shapes = new ArrayList<Shape>();
@@ -18,13 +19,27 @@ public class DrawingPanel extends JPanel {
 
     void setSelectedShape(Shape s){
         selectedShape = s;
-        infoPanel.setCurrentShape(s);
         if (s != null){
             if (selectedShape.getClass() == Line.class){
                 relative = new Point(clickPoint.x - selectedShape.x, clickPoint.y - selectedShape.y);
+                var components = Arrays.asList(getComponents());
+                if(components.contains(infoPanel))
+                    remove(infoPanel);
+                infoPanel = new LineInfoPanel();
             } else {
                 relative = new Point(clickPoint.x - getSelectedShapeBounds().x, clickPoint.y - getSelectedShapeBounds().y);
+                var components = Arrays.asList(getComponents());
+                if(components.contains(infoPanel))
+                    remove(infoPanel);
+                infoPanel = new ShapeInfoPanel();
             }
+            infoPanel.drawingPanel = this;
+            infoPanel.setCurrentShape(s);
+            add(infoPanel);
+            validate();
+            repaint();
+        } else {
+            infoPanel = null;
         }
     }
 
@@ -39,14 +54,13 @@ public class DrawingPanel extends JPanel {
 
     Shape selectedShape;
 
-    DrawingPanel(OperationPanel operationPanel, InfoPanel infoPanel) {
+    DrawingPanel(OperationPanel operationPanel) {
         this.operationPanel = operationPanel;
-        this.infoPanel = infoPanel;
-        infoPanel.drawingPanel = this;
         mouseAdapter = createMouseAdapter();
         addMouseListener(mouseAdapter);
         addMouseMotionListener(mouseAdapter);
-        layout = new BoxLayout(this, BoxLayout.Y_AXIS);
+        layout = new FlowLayout(FlowLayout.RIGHT);
+//        layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(layout);
         setBackground(Color.WHITE);
         setPreferredSize(new Dimension(900, 700));
@@ -94,7 +108,7 @@ public class DrawingPanel extends JPanel {
 
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setStroke(new BasicStroke(1.5F));
+//        g2d.setStroke(new BasicStroke(1.5F));
         super.paintComponent(g);
         for (var shape : shapes){
             shape.draw(g);
@@ -136,8 +150,10 @@ public class DrawingPanel extends JPanel {
                     //TODO: Add resize or drag shape
                     Rectangle selector = getSelectedShapeBounds();
                     Point mouseLoc = getMousePosition();
-                    selectedShape.reposition(mouseLoc.x - relative.x, mouseLoc.y - relative.y);
-                    repaint();
+                    if (mouseLoc != null){
+                        selectedShape.reposition(mouseLoc.x - relative.x, mouseLoc.y - relative.y);
+                        repaint();
+                    }
                 }
             }
             public void mouseReleased(MouseEvent e){

@@ -3,7 +3,6 @@ import java.awt.*;
 
 class PaintFrame extends JFrame {
     OperationPanel operationPanel = new OperationPanel();
-    InfoPanel infoPanel = new ShapeInfoPanel();
     JPanel mainPanel = new JPanel();
     GridLayout layout = new GridLayout(2, 2);
 
@@ -11,8 +10,7 @@ class PaintFrame extends JFrame {
         super("PAINT");
         setLayout(layout);
         mainPanel.add(operationPanel);
-        mainPanel.add(new DrawingPanel(operationPanel, infoPanel));
-        mainPanel.add(infoPanel);
+        mainPanel.add(new DrawingPanel(operationPanel));
         setContentPane(mainPanel);
         setSize(1100, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
