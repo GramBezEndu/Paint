@@ -31,7 +31,6 @@ public abstract class InfoPanel extends JPanel implements PropertyChangeListener
             }
         };
         apply.addActionListener(actionListener);
-        setVisible(false);
     }
 
     protected abstract void addExtraProperties();

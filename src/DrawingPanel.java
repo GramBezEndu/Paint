@@ -22,15 +22,11 @@ public class DrawingPanel extends JPanel {
         if (s != null){
             if (selectedShape.getClass() == Line.class){
                 relative = new Point(clickPoint.x - selectedShape.x, clickPoint.y - selectedShape.y);
-                var components = Arrays.asList(getComponents());
-                if(components.contains(infoPanel))
-                    remove(infoPanel);
+                removeInfoPanels();
                 infoPanel = new LineInfoPanel();
             } else {
                 relative = new Point(clickPoint.x - getSelectedShapeBounds().x, clickPoint.y - getSelectedShapeBounds().y);
-                var components = Arrays.asList(getComponents());
-                if(components.contains(infoPanel))
-                    remove(infoPanel);
+                removeInfoPanels();
                 infoPanel = new ShapeInfoPanel();
             }
             infoPanel.drawingPanel = this;
@@ -40,6 +36,14 @@ public class DrawingPanel extends JPanel {
             repaint();
         } else {
             infoPanel = null;
+        }
+    }
+
+    private void removeInfoPanels() {
+        Component[] components = getComponents();
+        for (Component component : components) {
+            if (component instanceof InfoPanel)
+                remove(component);
         }
     }
 
@@ -60,7 +64,6 @@ public class DrawingPanel extends JPanel {
         addMouseListener(mouseAdapter);
         addMouseMotionListener(mouseAdapter);
         layout = new FlowLayout(FlowLayout.RIGHT);
-//        layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(layout);
         setBackground(Color.WHITE);
         setPreferredSize(new Dimension(900, 700));
