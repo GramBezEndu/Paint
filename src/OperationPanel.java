@@ -54,7 +54,7 @@ public class OperationPanel extends JPanel {
     }
 
     private void createCircleBtn(){
-        circle = new JToggleButton("Circle");
+        circle = new JToggleButton("Ellipse");
         ActionListener actionListener = e -> currentOperation = Operations.Operation.Circle;
         circle.addActionListener(actionListener);
     }
