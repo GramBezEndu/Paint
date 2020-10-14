@@ -3,14 +3,54 @@ import java.awt.geom.Point2D;
 
 public class Line extends Shape {
     Color color = Color.BLACK;
-    int x2;
-    int y2;
+    private int x2;
+    private int y2;
+
+    public int getx2(){
+        return x2;
+    }
+
+    public int gety2(){
+        return y2;
+    }
+
+    public void setx2(int val){
+        x2 = val;
+        updatePoints();
+    }
+
+    public void sety2(int val){
+        y2 = val;
+        updatePoints();
+    }
 
     Line(int x, int y, int x2, int y2){
         this.x = x;
         this.y = y;
         this.x2 = x2;
         this.y2 = y2;
+        createCharacteristicPoint();
+    }
+
+    private void createCharacteristicPoint() {
+        characteristicPoints = new CharacteristicPoint[2];
+        if (x <= x2){
+            if (y >= y2){
+                characteristicPoints[0] = new CharacteristicPoint(x, y, CharacteristicPoint.PointLocation.BOTTOM_LEFT);
+                characteristicPoints[1] = new CharacteristicPoint(x2, y2, CharacteristicPoint.PointLocation.TOP_RIGHT);
+            } else {
+                characteristicPoints[0] = new CharacteristicPoint(x, y, CharacteristicPoint.PointLocation.TOP_LEFT);
+                characteristicPoints[1] = new CharacteristicPoint(x2, y2, CharacteristicPoint.PointLocation.BOTTOM_RIGHT);
+            }
+        } else {
+            if (y >= y2){
+                characteristicPoints[0] = new CharacteristicPoint(x, y, CharacteristicPoint.PointLocation.BOTTOM_RIGHT);
+                characteristicPoints[1] = new CharacteristicPoint(x2, y2, CharacteristicPoint.PointLocation.TOP_LEFT);
+            } else {
+                characteristicPoints[0] = new CharacteristicPoint(x, y, CharacteristicPoint.PointLocation.TOP_RIGHT);
+                characteristicPoints[1] = new CharacteristicPoint(x2, y2, CharacteristicPoint.PointLocation.BOTTOM_LEFT);
+            }
+        }
     }
 
     @Override
@@ -40,6 +80,7 @@ public class Line extends Shape {
         this.y = newY;
         this.x2 += differenceX;
         this.y2 += differenceY;
+        updatePoints();
     }
 
     @Override
@@ -48,25 +89,32 @@ public class Line extends Shape {
     }
 
     @Override
-    public CharacteristicPoint[] getCharacteristicPoints() {
-        var points = new CharacteristicPoint[2];
+    public void changeCharacteristicPoint(CharacteristicPoint point){
+        throw new java.lang.UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    protected void updatePoints() {
+        characteristicPoints[0].point.x = x;
+        characteristicPoints[0].point.y = y;
+        characteristicPoints[1].point.x = x2;
+        characteristicPoints[1].point.y = y2;
         if (x <= x2){
             if (y >= y2){
-                points[0] = new CharacteristicPoint(x, y, CharacteristicPoint.PointLocation.BOTTOM_LEFT);
-                points[1] = new CharacteristicPoint(x2, y2, CharacteristicPoint.PointLocation.TOP_RIGHT);
+                characteristicPoints[0].pointLocation = CharacteristicPoint.PointLocation.BOTTOM_LEFT;
+                characteristicPoints[1].pointLocation = CharacteristicPoint.PointLocation.TOP_RIGHT;
             } else {
-                points[0] = new CharacteristicPoint(x, y, CharacteristicPoint.PointLocation.TOP_LEFT);
-                points[1] = new CharacteristicPoint(x2, y2, CharacteristicPoint.PointLocation.BOTTOM_RIGHT);
+                characteristicPoints[0].pointLocation = CharacteristicPoint.PointLocation.TOP_LEFT;
+                characteristicPoints[1].pointLocation = CharacteristicPoint.PointLocation.BOTTOM_RIGHT;
             }
         } else {
             if (y >= y2){
-                points[0] = new CharacteristicPoint(x, y, CharacteristicPoint.PointLocation.BOTTOM_RIGHT);
-                points[1] = new CharacteristicPoint(x2, y2, CharacteristicPoint.PointLocation.TOP_LEFT);
+                characteristicPoints[0].pointLocation =  CharacteristicPoint.PointLocation.BOTTOM_RIGHT;
+                characteristicPoints[1].pointLocation = CharacteristicPoint.PointLocation.TOP_LEFT;
             } else {
-                points[0] = new CharacteristicPoint(x, y, CharacteristicPoint.PointLocation.TOP_RIGHT);
-                points[1] = new CharacteristicPoint(x2, y2, CharacteristicPoint.PointLocation.BOTTOM_LEFT);
+                characteristicPoints[0].pointLocation = CharacteristicPoint.PointLocation.TOP_RIGHT;
+                characteristicPoints[1].pointLocation = CharacteristicPoint.PointLocation.BOTTOM_LEFT;
             }
         }
-        return points;
     }
 }

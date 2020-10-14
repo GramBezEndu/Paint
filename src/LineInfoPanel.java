@@ -32,8 +32,8 @@ public class LineInfoPanel extends InfoPanel {
     protected void setTextFieldsValues(){
         super.setTextFieldsValues();
         Line shape = (Line)currentShape;
-        x2.setText(Integer.toString(shape.x2));
-        y2.setText(Integer.toString(shape.y2));
+        x2.setText(Integer.toString(shape.getx2()));
+        y2.setText(Integer.toString(shape.gety2()));
     }
 
     @Override
@@ -51,7 +51,7 @@ public class LineInfoPanel extends InfoPanel {
         int newX2 = Integer.parseInt(x2.getText());
         int newY2 = Integer.parseInt(y2.getText());
         Line shape = (Line)currentShape;
-        shape.x2 = newX2;
-        shape.y2 = newY2;
+        shape.setx2(newX2);
+        shape.sety2(newY2);
     }
 }

@@ -8,6 +8,7 @@ public class Circle extends FullShape {
         this.y = y;
         width = w;
         height = h;
+        createPoints();
     }
 
     @Override
@@ -16,6 +17,7 @@ public class Circle extends FullShape {
         propertyChangeSupport.firePropertyChange("y", y, newY);
         this.x = newX;
         this.y = newY;
+        updatePoints();
     }
 
     @Override

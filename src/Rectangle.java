@@ -9,6 +9,7 @@ public class Rectangle extends FullShape {
         this.y = y;
         this.width = w;
         this.height = h;
+        createPoints();
     }
 
     @Override
@@ -17,6 +18,7 @@ public class Rectangle extends FullShape {
         propertyChangeSupport.firePropertyChange("y", y, newY);
         this.x = newX;
         this.y = newY;
+        updatePoints();
     }
 
     @Override

@@ -15,7 +15,7 @@ public class DrawingPanel extends JPanel {
     Point releasePoint;
     ArrayList<Shape> shapes = new ArrayList<Shape>();
     Point relative;
-    boolean resize = false;
+    Rectangle resizeRectangle;
     Shape selectedShape;
     Selector selector;
 
@@ -34,24 +34,25 @@ public class DrawingPanel extends JPanel {
             infoPanel.drawingPanel = this;
             infoPanel.setCurrentShape(selectedShape);
             selector = new Selector(selectedShape);
-            resize = checkIfResizeRequested();
+            resizeRectangle = checkIfResizeRequested();
             add(infoPanel);
             validate();
             repaint();
         } else {
+            removeInfoPanels();
             infoPanel = null;
             selector = null;
-            resize = false;
+            resizeRectangle = null;
         }
     }
 
-    private boolean checkIfResizeRequested(){
+    private Rectangle checkIfResizeRequested(){
         for (var resizeRect : selector.resizeRectangles){
             if (resizeRect.contains(clickPoint)){
-                return true;
+                return resizeRect;
             }
         }
-        return false;
+        return null;
     }
 
     private void removeInfoPanels() {
@@ -158,11 +159,11 @@ public class DrawingPanel extends JPanel {
             }
             public void mouseDragged(MouseEvent e){
                 if (selectedShape != null && operationPanel.getCurrentOperation() == Operations.Operation.Select){
-                    //TODO: Add resize
                     Point mouseLoc = getMousePosition();
                     if (mouseLoc != null){
-                        if (resize){
-                            System.out.println("Resize requested");
+                        if (resizeRectangle != null){
+                            //TODO: Add resize
+                            selectedShape.changeCharacteristicPoint(null);
                         } else {
                             selectedShape.reposition(mouseLoc.x - relative.x, mouseLoc.y - relative.y);
                         }
