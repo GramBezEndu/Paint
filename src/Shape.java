@@ -22,6 +22,6 @@ public abstract class Shape {
     public CharacteristicPoint[] getCharacteristicPoints() {
         return characteristicPoints;
     }
-    public abstract void changeCharacteristicPoint(CharacteristicPoint point);
+    public abstract void changeCharacteristicPoint(int index, int newX, int newY);
     protected abstract void updatePoints();
 }

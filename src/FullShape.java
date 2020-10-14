@@ -25,8 +25,29 @@ public abstract class FullShape extends Shape {
     }
 
     @Override
-    public void changeCharacteristicPoint(CharacteristicPoint point){
-        throw new java.lang.UnsupportedOperationException("Not supported yet.");
+    public void changeCharacteristicPoint(int index, int newX, int newY){
+        CharacteristicPoint.PointLocation pl = characteristicPoints[index].pointLocation;
+        switch (pl){
+            case TOP_LEFT:
+                if (width - (newX - x) >= 4 && height - (newY - y) >= 4){
+                    propertyChangeSupport.firePropertyChange("x", x, newX);
+                    propertyChangeSupport.firePropertyChange("y", y, newY);
+                    propertyChangeSupport.firePropertyChange("width", width, width - (newX - x));
+                    propertyChangeSupport.firePropertyChange("height", height, height - (newY - y));
+                    width -= newX - x;
+                    height -= newY - y;
+                    x = newX;
+                    y = newY;
+                    updatePoints();
+                }
+                break;
+            case TOP_RIGHT:
+                break;
+            case BOTTOM_LEFT:
+                break;
+            case BOTTOM_RIGHT:
+                break;
+        }
     }
 
     @Override

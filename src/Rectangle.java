@@ -52,4 +52,12 @@ public class Rectangle extends FullShape {
         java.awt.Rectangle r = new java.awt.Rectangle(x, y, width, height);
         return  r.contains(p);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Rectangle p2 = (Rectangle) obj;
+        if (p2.x == this.x && p2.y == this.y && p2.width == this.width && p2.height == this.height)
+            return true;
+        return false;
+    }
 }

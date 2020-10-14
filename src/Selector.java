@@ -1,8 +1,8 @@
 import java.awt.*;
 
 public class Selector {
-    private int rectWidth = 8;
-    private int rectHeight = 8;
+    private int rectWidth = 5;
+    private int rectHeight = 5;
     Rectangle selector;
     Rectangle[] resizeRectangles;
     private Shape shape;

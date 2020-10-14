@@ -89,8 +89,7 @@ public class Line extends Shape {
     }
 
     @Override
-    public void changeCharacteristicPoint(CharacteristicPoint point){
-        throw new java.lang.UnsupportedOperationException("Not supported yet.");
+    public void changeCharacteristicPoint(int index, int newX, int newY){
     }
 
     @Override

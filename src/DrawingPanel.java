@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DrawingPanel extends JPanel {
     OperationPanel operationPanel;
@@ -16,6 +17,7 @@ public class DrawingPanel extends JPanel {
     ArrayList<Shape> shapes = new ArrayList<Shape>();
     Point relative;
     Rectangle resizeRectangle;
+    int resizeIndex = -1;
     Shape selectedShape;
     Selector selector;
 
@@ -35,6 +37,7 @@ public class DrawingPanel extends JPanel {
             infoPanel.setCurrentShape(selectedShape);
             selector = new Selector(selectedShape);
             resizeRectangle = checkIfResizeRequested();
+            resizeIndex = Arrays.asList(selector.resizeRectangles).indexOf(resizeRectangle);
             add(infoPanel);
             validate();
             repaint();
@@ -43,6 +46,7 @@ public class DrawingPanel extends JPanel {
             infoPanel = null;
             selector = null;
             resizeRectangle = null;
+            resizeIndex = -1;
         }
     }
 
@@ -163,7 +167,7 @@ public class DrawingPanel extends JPanel {
                     if (mouseLoc != null){
                         if (resizeRectangle != null){
                             //TODO: Add resize
-                            selectedShape.changeCharacteristicPoint(null);
+                            selectedShape.changeCharacteristicPoint(resizeIndex, mouseLoc.x, mouseLoc.y);
                         } else {
                             selectedShape.reposition(mouseLoc.x - relative.x, mouseLoc.y - relative.y);
                         }
