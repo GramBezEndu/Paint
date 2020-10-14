@@ -90,6 +90,33 @@ public class Line extends Shape {
 
     @Override
     public void changeCharacteristicPoint(int index, int newX, int newY){
+        if (index != -1){
+            CharacteristicPoint.PointLocation pl = characteristicPoints[index].pointLocation;
+            switch (pl){
+                case TOP_LEFT:
+                    if (x2 - newX >= 4 && y2 - newY >= 4){
+                        propertyChangeSupport.firePropertyChange("x", x, newX);
+                        propertyChangeSupport.firePropertyChange("y", y, newY);
+                        x = newX;
+                        y = newY;
+                        updatePoints();
+                    };
+                    break;
+                case TOP_RIGHT:
+                    break;
+                case BOTTOM_LEFT:
+                    if (x2 - newX >= 4 && newY - y2 >= 4){
+                        propertyChangeSupport.firePropertyChange("x", x, newX);
+                        propertyChangeSupport.firePropertyChange("y", y, newY);
+                        x = newX;
+                        y = newY;
+                        updatePoints();
+                    }
+                    break;
+                case BOTTOM_RIGHT:
+                    break;
+            }
+        }
     }
 
     @Override
