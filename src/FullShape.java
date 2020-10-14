@@ -64,6 +64,13 @@ public abstract class FullShape extends Shape {
                 }
                 break;
             case BOTTOM_RIGHT:
+                if (width + (newX - (x + width)) >= 4 && height + (newY - (height + y)) >= 4){
+                    propertyChangeSupport.firePropertyChange("width", width, width - (newX - x));
+                    propertyChangeSupport.firePropertyChange("height", height, height + (newY - (height + y)));
+                    width += (newX - (x + width));
+                    height += (newY - (height + y));
+                    updatePoints();
+                }
                 break;
         }
     }
