@@ -103,6 +103,13 @@ public class Line extends Shape {
                     };
                     break;
                 case TOP_RIGHT:
+                    if (newX - x2 >= 4 && y2 - newY >= 4){
+                        propertyChangeSupport.firePropertyChange("x", x, newX);
+                        propertyChangeSupport.firePropertyChange("y", y, newY);
+                        x = newX;
+                        y = newY;
+                        updatePoints();
+                    }
                     break;
                 case BOTTOM_LEFT:
                     if (x2 - newX >= 4 && newY - y2 >= 4){
@@ -114,6 +121,13 @@ public class Line extends Shape {
                     }
                     break;
                 case BOTTOM_RIGHT:
+                    if(newX - x2 >= 4 && newY - y2 >= 4){
+                        propertyChangeSupport.firePropertyChange("x", x, newX);
+                        propertyChangeSupport.firePropertyChange("y", y, newY);
+                        x = newX;
+                        y = newY;
+                        updatePoints();
+                    }
                     break;
             }
         }
