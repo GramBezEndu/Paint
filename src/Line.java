@@ -92,41 +92,91 @@ public class Line extends Shape {
     public void changeCharacteristicPoint(int index, int newX, int newY){
         if (index != -1){
             CharacteristicPoint.PointLocation pl = characteristicPoints[index].pointLocation;
+            int currentX, currentY;
+            boolean firstPoint;
+            if (characteristicPoints[index].point.x == x && characteristicPoints[index].point.y == y){
+                firstPoint = true;
+            } else if (characteristicPoints[index].point.x == x2 && characteristicPoints[index].point.y == y2){
+                firstPoint = false;
+            } else {
+                throw new IllegalArgumentException("");
+            }
             switch (pl){
                 case TOP_LEFT:
-                    if (x2 - newX >= 4 && y2 - newY >= 4){
-                        propertyChangeSupport.firePropertyChange("x", x, newX);
-                        propertyChangeSupport.firePropertyChange("y", y, newY);
-                        x = newX;
-                        y = newY;
-                        updatePoints();
-                    };
+                    if (firstPoint){
+                        if (x2 - newX >= 4 && y2 - newY >= 4){
+                            propertyChangeSupport.firePropertyChange("x", x, newX);
+                            propertyChangeSupport.firePropertyChange("y", y, newY);
+                            x = newX;
+                            y = newY;
+                            updatePoints();
+                        };
+                    }
+                    else {
+                        if (x - newX >= 4 && y - newY >= 4){
+                            propertyChangeSupport.firePropertyChange("x2", x2, newX);
+                            propertyChangeSupport.firePropertyChange("y2", y2, newY);
+                            x2 = newX;
+                            y2 = newY;
+                            updatePoints();
+                        };
+                    }
                     break;
                 case TOP_RIGHT:
-                    if (newX - x2 >= 4 && y2 - newY >= 4){
-                        propertyChangeSupport.firePropertyChange("x", x, newX);
-                        propertyChangeSupport.firePropertyChange("y", y, newY);
-                        x = newX;
-                        y = newY;
-                        updatePoints();
+                    if (firstPoint){
+                        if (newX - x2 >= 4 && y2 - newY >= 4){
+                            propertyChangeSupport.firePropertyChange("x", x, newX);
+                            propertyChangeSupport.firePropertyChange("y", y, newY);
+                            x = newX;
+                            y = newY;
+                            updatePoints();
+                        }
+                    } else {
+                        if (newX - x >= 4 && y - newY >= 4){
+                            propertyChangeSupport.firePropertyChange("x2", x2, newX);
+                            propertyChangeSupport.firePropertyChange("y2", y2, newY);
+                            x2 = newX;
+                            y2 = newY;
+                            updatePoints();
+                        }
                     }
                     break;
                 case BOTTOM_LEFT:
-                    if (x2 - newX >= 4 && newY - y2 >= 4){
-                        propertyChangeSupport.firePropertyChange("x", x, newX);
-                        propertyChangeSupport.firePropertyChange("y", y, newY);
-                        x = newX;
-                        y = newY;
-                        updatePoints();
+                    if (firstPoint){
+                        if (x2 - newX >= 4 && newY - y2 >= 4){
+                            propertyChangeSupport.firePropertyChange("x", x, newX);
+                            propertyChangeSupport.firePropertyChange("y", y, newY);
+                            x = newX;
+                            y = newY;
+                            updatePoints();
+                        }
+                    } else {
+                        if (x - newX >= 4 && newY - y >= 4){
+                            propertyChangeSupport.firePropertyChange("x2", x2, newX);
+                            propertyChangeSupport.firePropertyChange("y2", y2, newY);
+                            x2 = newX;
+                            y2 = newY;
+                            updatePoints();
+                        }
                     }
                     break;
                 case BOTTOM_RIGHT:
-                    if(newX - x2 >= 4 && newY - y2 >= 4){
-                        propertyChangeSupport.firePropertyChange("x", x, newX);
-                        propertyChangeSupport.firePropertyChange("y", y, newY);
-                        x = newX;
-                        y = newY;
-                        updatePoints();
+                    if (firstPoint){
+                        if(newX - x2 >= 4 && newY - y2 >= 4){
+                            propertyChangeSupport.firePropertyChange("x", x, newX);
+                            propertyChangeSupport.firePropertyChange("y", y, newY);
+                            x = newX;
+                            y = newY;
+                            updatePoints();
+                        }
+                    } else {
+                        if(newX - x >= 4 && newY - y >= 4){
+                            propertyChangeSupport.firePropertyChange("x2", x2, newX);
+                            propertyChangeSupport.firePropertyChange("y2", y2, newY);
+                            x2 = newX;
+                            y2 = newY;
+                            updatePoints();
+                        }
                     }
                     break;
             }
