@@ -42,6 +42,15 @@ public abstract class FullShape extends Shape {
                 }
                 break;
             case TOP_RIGHT:
+                if (width + (newX - (x + width)) >= 4 && height - (newY - y) >= 4){
+                    propertyChangeSupport.firePropertyChange("y", y, newY);
+                    propertyChangeSupport.firePropertyChange("width", width, width + (newX - (x + width)));
+                    propertyChangeSupport.firePropertyChange("height", height, height - (newY - y));
+                    width += newX - (x + width);
+                    height -= newY - y;
+                    y = newY;
+                    updatePoints();
+                }
                 break;
             case BOTTOM_LEFT:
                 break;
